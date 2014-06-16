@@ -39,7 +39,9 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
  */
 @interface LSWeekView : UIView
 
+
 #pragma mark - Lifecycle
+/** @name Lifecycle */
 
 /**
  Initializes the receiver.
@@ -50,6 +52,7 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
 - (instancetype)initWithFrame:(CGRect)frame style:(LSWeekViewStyle)style;
 
 #pragma mark - Updating display settings
+/** @name Updating display settings */
 
 /**
  The calendar used for date calculations. Default is set to `[NSCalendar currentCalendar]`.
@@ -61,7 +64,9 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
  */
 - (void)reloadData;
 
+
 #pragma mark - Updating font settings
+/** @name Updating font settings */
 
 /**
  The font used for day labels.
@@ -78,7 +83,14 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
  */
 @property (nonatomic, strong) UIFont *weekdayLabelFont;
 
+
 #pragma mark - Date selections
+/** @name Date selections */
+
+/**
+ Animates the selected date marker to accentuate date selection.
+ */
+- (void)animateSelectedDateMarker;
 
 /**
  The block to be executed when date selection changes in response to user interaction.
@@ -89,11 +101,6 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
  The currently selected date.
  */
 @property (nonatomic, strong) NSDate *selectedDate;
-
-/**
- Animates the selected date marker to accentuate date selection.
- */
-- (void)animateSelectedDateMarker;
 
 /**
  Sets the selected date, optionally animating the transition.
