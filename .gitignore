@@ -1,0 +1,7 @@
+.gitignore
+.DS_Store
+
+Example/LSWeekView-Example.xcodeproj/project.xcworkspace/xcshareddata/*
+Example/LSWeekView-Example.xcodeproj/project.xcworkspace/xcuserdata/*
+Example/LSWeekView-Example.xcodeproj/xcuserdata/*
+
