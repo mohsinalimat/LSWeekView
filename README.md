@@ -1,6 +1,8 @@
 # LSWeekView
 
-iOS week view control, similar to the one used in the iOS 7 Calendar app (day view).
+iOS week view control, similar to the one used in the iOS 7 Calendar app (day view). 
+
+The control is used in production in our [Lumen Trails](http://www.lumentrails.com) app, with over million downloads to date.
 
 <p align="left">
   <img src="https://github.com/LumenSpark/LSWeekView/raw/master/Screenshot.png" alt="Screenshot" width='320px'/>
