@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "LSWeekView"
-  s.version          = File.read('VERSION')
+  s.version          = '1.0'
   s.summary          = "iOS week view control, similar to the one used in the iOS 7 Calendar app (day view)."
   s.description      = <<-DESC
 A scrollable week view that allows the user to select a date. Designed for iOS 7 and 8. See the screenshot.
