@@ -135,7 +135,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
 
   // Initialize the date labels
   //
-  frame = CGRectMake(0, (self.style & LSWeekViewStyleReversedDayLabels) ? 5 : 54, CGRectGetWidth(self.frame), 20);
+  frame = CGRectMake(0, (self.style & LSWeekViewStyleReversedDayLabels) ? 5 : 54, CGRectGetWidth(self.frame), 24);
 
   self.primaryDateLabel = [self createDateLabelWithFrame:frame];
   self.secondaryDateLabel = [self createDateLabelWithFrame:frame];
