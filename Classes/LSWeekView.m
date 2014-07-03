@@ -68,89 +68,89 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
  */
 - (void)commotInitForLSWeekView
 {
-  [self sizeToFit];
+    [self sizeToFit];
 
-  // We should always have a valid selected date
-  //
-  self.selectedDate = [self today];
+    // We should always have a valid selected date
+    //
+    self.selectedDate = [self today];
 
-  // Initialize the collection view
-  //
-  UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-  flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-  flowLayout.minimumInteritemSpacing = 0;
-  flowLayout.minimumLineSpacing = 0;
+    // Initialize the collection view
+    //
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    flowLayout.minimumInteritemSpacing = 0;
+    flowLayout.minimumLineSpacing = 0;
 
-  CGRect frame = CGRectZero;
-  
-  frame.size.width = self.collectionViewCellSize.width * 7;
-  frame.size.height = self.collectionViewCellSize.height;
-  frame.origin.x = (int)(CGRectGetWidth(self.frame) - CGRectGetWidth(frame)) / 2.0;
-  frame.origin.y = (self.style & LSWeekViewStyleReversedDayLabels) ? 24 : 10;
+    CGRect frame = CGRectZero;
 
-  self.collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-  [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellId];
-  self.collectionView.dataSource = self;
-  self.collectionView.delegate = self;
-  self.collectionView.pagingEnabled = YES;
-  self.collectionView.backgroundColor = [UIColor clearColor];
-  self.collectionView.showsHorizontalScrollIndicator = NO;
-  self.collectionView.userInteractionEnabled = YES;
-  self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    frame.size.width = self.collectionViewCellSize.width * 7;
+    frame.size.height = self.collectionViewCellSize.height;
+    frame.origin.x = (int)(CGRectGetWidth(self.frame) - CGRectGetWidth(frame)) / 2.0;
+    frame.origin.y = (self.style & LSWeekViewStyleReversedDayLabels) ? 24 : 10;
 
-  [self addSubview:self.collectionView];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellId];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    self.collectionView.pagingEnabled = YES;
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.userInteractionEnabled = YES;
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 
-  // Add weekday labels
-  //
-  if ((self.style & LSWeekViewStyleWeekDayLabelsHidden) == 0)
-  {
-    frame.origin.x = self.collectionView.frame.origin.x;
-    frame.origin.y = (self.style & LSWeekViewStyleReversedDayLabels) ? 64 : 0;
-    frame.size.width = 7 * self.collectionViewCellSize.width;
-    frame.size.height = 16;
+    [self addSubview:self.collectionView];
 
-    UIView *weekDayLabelContainer = [[UIView alloc] initWithFrame:frame];
-    weekDayLabelContainer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-
-    NSMutableArray *weekDayLabels = [[NSMutableArray alloc] init];
-
-    for (int i=0; i < 7; i++)
+    // Add weekday labels
+    //
+    if ((self.style & LSWeekViewStyleWeekDayLabelsHidden) == 0)
     {
-      frame.origin.x = i * self.collectionViewCellSize.width;
-      frame.origin.y = 0;
-      frame.size.width = self.collectionViewCellSize.width;
-      frame.size.height = weekDayLabelContainer.frame.size.height;
+        frame.origin.x = self.collectionView.frame.origin.x;
+        frame.origin.y = (self.style & LSWeekViewStyleReversedDayLabels) ? 64 : 0;
+        frame.size.width = 7 * self.collectionViewCellSize.width;
+        frame.size.height = 16;
 
-      UILabel *label = [[UILabel alloc] initWithFrame:frame];
-      label.textColor = [UIColor darkTextColor];
-      label.textAlignment = NSTextAlignmentCenter;
-      [weekDayLabelContainer addSubview:label];
+        UIView *weekDayLabelContainer = [[UIView alloc] initWithFrame:frame];
+        weekDayLabelContainer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 
-      [weekDayLabels addObject:label];
+        NSMutableArray *weekDayLabels = [[NSMutableArray alloc] init];
+
+        for (int i=0; i < 7; i++)
+        {
+            frame.origin.x = i * self.collectionViewCellSize.width;
+            frame.origin.y = 0;
+            frame.size.width = self.collectionViewCellSize.width;
+            frame.size.height = weekDayLabelContainer.frame.size.height;
+
+            UILabel *label = [[UILabel alloc] initWithFrame:frame];
+            label.textColor = [UIColor darkTextColor];
+            label.textAlignment = NSTextAlignmentCenter;
+            [weekDayLabelContainer addSubview:label];
+
+            [weekDayLabels addObject:label];
+        }
+
+        _weekDayLabels = [weekDayLabels copy];
+        [self addSubview:weekDayLabelContainer];
     }
 
-    _weekDayLabels = [weekDayLabels copy];
-    [self addSubview:weekDayLabelContainer];
-  }
+    // Initialize the date labels
+    //
+    frame = CGRectMake(0, (self.style & LSWeekViewStyleReversedDayLabels) ? 5 : 54, CGRectGetWidth(self.frame), 24);
 
-  // Initialize the date labels
-  //
-  frame = CGRectMake(0, (self.style & LSWeekViewStyleReversedDayLabels) ? 5 : 54, CGRectGetWidth(self.frame), 24);
+    self.primaryDateLabel = [self createDateLabelWithFrame:frame];
+    self.secondaryDateLabel = [self createDateLabelWithFrame:frame];
 
-  self.primaryDateLabel = [self createDateLabelWithFrame:frame];
-  self.secondaryDateLabel = [self createDateLabelWithFrame:frame];
+    self.secondaryDateLabel.alpha = 0;
 
-  self.secondaryDateLabel.alpha = 0;
+    [self addSubview:self.primaryDateLabel];
+    [self addSubview:self.secondaryDateLabel];
 
-  [self addSubview:self.primaryDateLabel];
-  [self addSubview:self.secondaryDateLabel];
-
-  UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
-  [tapGestureRecognizer addTarget:self action:@selector(tapGestureAction:)];
-  [self addGestureRecognizer:tapGestureRecognizer];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData)
-      name:NSCurrentLocaleDidChangeNotification object:nil];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
+    [tapGestureRecognizer addTarget:self action:@selector(tapGestureAction:)];
+    [self addGestureRecognizer:tapGestureRecognizer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData)
+        name:NSCurrentLocaleDidChangeNotification object:nil];
 }
 
 
@@ -159,15 +159,15 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
  */
 - (id)initWithCoder:(NSCoder *)coder
 {
-  self = [super initWithCoder:coder];
+    self = [super initWithCoder:coder];
 
-  if (self)
-  {
-    _style = LSWeekViewStyleDefault;
-    [self commotInitForLSWeekView];
-  }
-
-  return self;
+    if (self)
+    {
+        _style = LSWeekViewStyleDefault;
+        [self commotInitForLSWeekView];
+    }
+    
+    return self;
 }
 
 
