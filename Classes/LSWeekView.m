@@ -202,7 +202,8 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
  */
 - (void)dealloc
 {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.collectionView.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Font settings
