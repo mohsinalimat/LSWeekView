@@ -65,8 +65,23 @@ typedef void (^DidChangeSelectedDateBlock)(NSDate *selectedDate);
 - (void)reloadData;
 
 
-#pragma mark - Updating font settings
-/** @name Updating font settings */
+#pragma mark - Updating font and color settings
+/** @name Updating font and color settings */
+
+/**
+ If true, the selected date label will use the default tint color to accentuate today's date.
+ */
+@property (nonatomic, assign) BOOL accentuateSelectedDateLabel;
+
+/**
+ The color used for week day labels.
+ */
+@property (nonatomic, retain) UIColor *darkTextColor;
+
+/**
+ The color used for Sat and Sun day labels.
+ */
+@property (nonatomic, retain) UIColor *grayTextColor;
 
 /**
  The font used for day labels.

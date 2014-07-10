@@ -122,7 +122,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
             frame.size.height = weekDayLabelContainer.frame.size.height;
 
             UILabel *label = [[UILabel alloc] initWithFrame:frame];
-            label.textColor = [UIColor darkTextColor];
+            label.textColor = [self darkTextColor];
             label.textAlignment = NSTextAlignmentCenter;
             [weekDayLabelContainer addSubview:label];
 
@@ -233,6 +233,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
     return _dayLabelFont;
 }
 
+
 /**
  The font used for weekday labels.
  */
@@ -243,6 +244,33 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
         _weekdayLabelFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
     }
     return _weekdayLabelFont;
+}
+
+#pragma mark - Color settings
+
+/**
+ The color used for weekday labels.
+ */
+- (UIColor *)darkTextColor
+{
+    if (_darkTextColor == nil)
+    {
+        _darkTextColor = [UIColor darkTextColor];
+    }
+    return _darkTextColor;
+}
+
+
+/**
+ The color used for Sat and Sun day labels.
+ */
+- (UIColor *)grayTextColor
+{
+    if (_grayTextColor == nil)
+    {
+        _grayTextColor = [UIColor grayColor];
+    }
+    return _grayTextColor;
 }
 
 #pragma mark - Public methods
@@ -379,7 +407,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
         UILabel *label = self.weekDayLabels[i];
         NSUInteger index = (i + firstWeekdayIndex) % 7;
         label.text = self.dateFormatter.veryShortStandaloneWeekdaySymbols[index];
-        label.textColor = (index == 0 || index == 6) ? [UIColor grayColor] : [UIColor darkTextColor];
+        label.textColor = (index == 0 || index == 6) ? [self grayTextColor] : [self darkTextColor];
     }
 
     [self updateSelectedDateLabelWithDate:self.selectedDate animated:NO];
@@ -413,7 +441,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
 
     dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     dateLabel.textAlignment = NSTextAlignmentCenter;
-    dateLabel.textColor = [UIColor darkTextColor];
+    dateLabel.textColor = [self darkTextColor];
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.frame = frame;
 
@@ -478,6 +506,11 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
 - (void)updateSelectedDateLabelWithDate:(NSDate *)date animated:(BOOL)animated
 {
     [self.primaryDateLabel setText:[self.dateFormatter stringFromDate:date]];
+
+    if (self.accentuateSelectedDateLabel)
+    {
+        self.primaryDateLabel.textColor = ([self date:date fallsOnSameDayAsDate:[NSDate date]]) ? self.tintColor : [self darkTextColor];
+    }
 
     // Update the date label
     //
@@ -708,7 +741,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
     dateLabel.font = self.dayLabelFont;
     
     dateMarker.backgroundColor = [UIColor clearColor];
-    dateLabel.textColor = [UIColor darkTextColor];
+    dateLabel.textColor = [self darkTextColor];
 
     NSInteger weekday = [self weekdayComponentFromDate:date];
 
@@ -716,7 +749,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
     //
     if (weekday == 1 /*Sun*/ || weekday == 7 /*Sat*/)
     {
-        dateLabel.textColor = [UIColor grayColor];
+        dateLabel.textColor = [self grayTextColor];
     }
 
     if ([self date:date fallsOnSameDayAsDate:self.selectedDate])
@@ -731,7 +764,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
 
         if ([self date:date fallsOnSameDayAsDate:self.selectedDate] || [self date:date fallsOnSameDayAsDate:self.secondarySelectedDate])
         {
-            dateMarker.backgroundColor = isDimmed ? [UIColor darkTextColor] : self.tintColor;
+            dateMarker.backgroundColor = isDimmed ? [self darkTextColor] : self.tintColor;
             dateLabel.textColor = [UIColor whiteColor];
         }
         else if (!isDimmed)
@@ -741,7 +774,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
     }
     else if ([self date:date fallsOnSameDayAsDate:self.selectedDate] || [self date:date fallsOnSameDayAsDate:self.secondarySelectedDate])
     {
-        dateMarker.backgroundColor = [UIColor darkTextColor];
+        dateMarker.backgroundColor = [self darkTextColor];
         dateLabel.textColor = [UIColor whiteColor];
     }
 
