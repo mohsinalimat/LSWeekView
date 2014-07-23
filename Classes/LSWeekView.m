@@ -410,6 +410,9 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
         label.textColor = (index == 0 || index == 6) ? [self grayTextColor] : [self darkTextColor];
     }
 
+    self.primaryDateLabel.textColor = [self darkTextColor];
+    self.secondaryDateLabel.textColor = [self darkTextColor];
+
     [self updateSelectedDateLabelWithDate:self.selectedDate animated:NO];
 
     [self updateFirstDateInCollectionView];
