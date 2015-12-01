@@ -90,6 +90,7 @@ NSString* const CollectionViewCellId = @"WeekViewCell";
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellId];
+    self.collectionView.scrollsToTop = NO;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.pagingEnabled = YES;
